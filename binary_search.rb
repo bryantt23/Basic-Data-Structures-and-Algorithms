@@ -3,8 +3,11 @@
 #Constructor for the individual nodes
 
 class Node
+#   instance variables, value, left & right child
   attr_accessor :value, :left_child, :right_child
 
+
+# looks like each node will have a value & a left & right child (but both children are nil)
   def initialize(value, left_child=nil, right_child=nil)
     @value = value
     @left_child = left_child
