@@ -97,17 +97,29 @@ Otherwise enqueue any successors (the direct child nodes) that have not yet been
       queue << node.right_child if node.right_child != nil
     end
   end
+  
+  
+=begin
+https://www.youtube.com/watch?v=iaBEKo5sM7w
+  This is one of the important Graph traversal technique. DFS is based on stack data structure.
+=end
 
+  
   #ITERATIVE DEPTH FIRST SEARCH METHOD
   def depth_first_search(query)
     stack = [@tree]
 
     loop do
+#   exit when empty stack
       return nil if stack.empty?
 
+#   node is equal to top of stack
       node = stack.pop
+      
+#   return node if match
       return node if query == node.value
 
+#   i think it is pushing every descendant of the parent?
       stack.push node.left_child if node.left_child != nil
       stack.push node.right_child if node.right_child != nil
     end
@@ -118,7 +130,10 @@ Otherwise enqueue any successors (the direct child nodes) that have not yet been
     return nil if node.nil?
     return node if query == node.value
 
+#   left search equals if the left child is not nil then call the method with target & left child node parameters, otherwise is nil
     left_search = node.left_child != nil ? dfs_recursive(query, node.left_child) : nil
+
+#   return if left search does not result in nil
     return left_search if left_search != nil
     right_search = node.right_child != nil ? dfs_recursive(query, node.right_child) : nil
     return right_search if right_search != nil 
