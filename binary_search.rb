@@ -15,10 +15,14 @@ class Node
   end
 end
 
+#   remember left child is smaller, right is larger
+
 #Constructor for our Binary Tree, includes three search methods
 class BinarySearchTree
+#   instance variables
   attr_accessor :array, :tree
 
+# Instance variables begin with @. 
   def initialize(array, tree=nil)
     @array = array
     @tree = tree
@@ -28,22 +32,44 @@ class BinarySearchTree
 
   #Sorts the array using the merge_sort method, and builds the tree.
   def build_tree(array, left=0, right=array.length-1)
+    
+#   base case
     return if left > right
 
+#   from smallest to largest
     array = merge_sort(array)
 
+#   middle index, make this  the first node
     index_mid = left + (right-left) / 2 
     node = Node.new(array[index_mid])     
       
+#   i think it's making the left node (smaller), & right (larger)
+#   looks like it is recursion
     node.left_child = build_tree(array, left, index_mid-1)      
     node.right_child = build_tree(array, index_mid+1, right)    
 
     @tree = node
     @tree
   end
+  
+ 
+=begin
+http://en.wikipedia.org/wiki/Breadth-first_search#Algorithm
+The algorithm uses a queue data structure to store intermediate results as it traverses the graph, as follows:
+
+1 Enqueue the root node
+2 Dequeue a node and examine it
+If the element sought is found in this node, quit the search and return a result.
+Otherwise enqueue any successors (the direct child nodes) that have not yet been discovered.
+3 If the queue is empty, every node on the graph has been examined â€“ quit the search and return "not found".
+4 If the queue is not empty, repeat from Step 2.
+
+=end
 
   #ITERATIVE BREADTH FIRST SEARCH method
   def breadth_first_search(query)
+
+#   empty array
     queue = []
     root = @tree.value
 
@@ -52,15 +78,21 @@ class BinarySearchTree
     left_child = @tree.left_child
     right_child = @tree.right_child
 
+#   i think if the target is smaller, add the left child
     queue << left_child if left_child != nil
     queue << right_child if right_child != nil
     
     loop do
+      
+#   if nothing in queue, return nil
       return nil if queue.empty?
 
+#   Removes the first element of self and returns it (shifting all other elements down by one). Returns nil if the array is empty.
       node = queue.shift
       return node if query == node.value
 
+#   i think it continues the search, left if target is smaller, right if target is larger
+#   also continues unless there is no child
       queue << node.left_child if node.left_child != nil
       queue << node.right_child if node.right_child != nil
     end
